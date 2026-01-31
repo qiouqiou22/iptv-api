@@ -657,19 +657,18 @@ def get_primary_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
     """
     Get the primary urls for a channel
     """
-    primary_limit = min(config.primary_urls_limit, config.urls_limit)
     channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
-    return channel_urls[:primary_limit]
+    # Grouped "main" output is intended to be a single best URL per channel.
+    return channel_urls[:1]
 
 
 def get_backup_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
     """
     Get the backup urls for a channel
     """
-    primary_limit = min(config.primary_urls_limit, config.urls_limit)
-    backup_limit = min(config.backup_urls_limit, max(config.urls_limit - primary_limit, 0))
     channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
-    return channel_urls[primary_limit:primary_limit + backup_limit]
+    # Grouped "backup" output is intended to be the 2nd best URL per channel.
+    return channel_urls[1:2]
 
 
 def write_channel_to_file(data, ipv6=False, callback=None, path=None, url_selector=None):

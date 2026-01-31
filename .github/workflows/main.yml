@@ -5,10 +5,6 @@ on:
     - cron: '0 22 * * *'
     - cron: '0 10 * * *'
   workflow_dispatch:
-    branches:
-      - master
-      - dev
-      - gd
 jobs:
   push:
     runs-on: ${{ matrix.operating-system }}
@@ -17,12 +13,7 @@ jobs:
       matrix:
         operating-system: [ 'ubuntu-20.04' ]
     steps:
-      - name: Set branch name
-        id: vars
-        run: echo "BRANCH_NAME=${{ github.repository_owner == 'Guovin' && 'gd' || 'master' }}" >> $GITHUB_ENV
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ env.BRANCH_NAME }}
       - name: Run with setup-python 3.13
         uses: actions/setup-python@v4
         with:
@@ -147,5 +138,5 @@ jobs:
           fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"
-            git push --force
+            git push --force origin HEAD:${{ github.ref_name }}
           fi

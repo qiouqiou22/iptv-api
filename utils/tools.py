@@ -371,13 +371,16 @@ def convert_to_m3u(first_channel_name=None, result_file=None):
                             )
                         except:
                             continue
+                        is_update_time_group = current_group == "🕘️更新时间"
+                        name_for_processing = first_channel_name if is_update_time_group else original_channel_name
                         processed_channel_name = re.sub(
                             r"(CCTV|CETV)-(\d+)(\+.*)?",
-                            lambda m: f"{m.group(1)}{m.group(2)}"
-                                      + ("+" if m.group(3) else ""),
-                            first_channel_name if current_group == "🕘️更新时间" else original_channel_name,
+                            lambda m: f"{m.group(1)}{m.group(2)}" + ("+" if m.group(3) else ""),
+                            name_for_processing,
                         )
-                        m3u_output += f'#EXTINF:-1 tvg-name="{processed_channel_name}" tvg-logo="https://raw.githubusercontent.com/fanmingming/live/main/tv/{processed_channel_name}.png"'
+                        tvg_name = "UpdateTime" if is_update_time_group else processed_channel_name
+                        tvg_logo_name = processed_channel_name
+                        m3u_output += f'#EXTINF:-1 tvg-name="{tvg_name}" tvg-logo="https://raw.githubusercontent.com/fanmingming/live/main/tv/{tvg_logo_name}.png"'
                         if current_group:
                             m3u_output += f' group-title="{current_group}"'
                         m3u_output += f",{original_channel_name}\n{channel_link}\n"
