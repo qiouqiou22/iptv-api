@@ -79,6 +79,26 @@ https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
 ```
 
+主源（前两条）：
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_main.m3u
+```
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_main.txt
+```
+
+备用源：
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_backup.m3u
+```
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_backup.txt
+```
+
 或
 
 ```bash
@@ -87,6 +107,26 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u
 
 ```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.txt
+```
+
+主源（前两条）：
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_main.m3u
+```
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_main.txt
+```
+
+备用源：
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_backup.m3u
+```
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_backup.txt
 ```
 
 - 数据源：
@@ -158,6 +198,8 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 | subscribe_num          | 结果中偏好的订阅源接口数量                                                                                                                                                         | 10                |
 | time_zone              | 时区，可用于控制更新时间显示的时区，可选值：Asia/Shanghai 或其它时区编码                                                                                                                           | Asia/Shanghai     |
 | urls_limit             | 单个频道接口数量                                                                                                                                                              | 10                |
+| primary_urls_limit     | 主源接口数量（优先输出前 N 条）                                                                                                                                                    | 2                 |
+| backup_urls_limit      | 备用源接口数量（默认=urls_limit-主源数量，负数表示自动）                                                                                                                                        | -1                |
 | update_time_position   | 更新时间显示位置，需要开启 open_update_time 才能生效，可选值：top、bottom，top: 显示于结果顶部，bottom: 显示于结果底部                                                                                       | top               |
 
 ## 快速上手
@@ -286,6 +328,10 @@ docker run -d -p 8000:8000 guovern/iptv-api:lite
 - 接口地址：`ip:8000`
 - m3u 接口：`ip:8000/m3u`
 - txt 接口：`ip:8000/txt`
+- 主源 m3u（前两条）：`ip:8000/main.m3u`
+- 主源 txt：`ip:8000/main.txt`
+- 备用源 m3u：`ip:8000/backup.m3u`
+- 备用源 txt：`ip:8000/backup.txt`
 - 接口内容：`ip:8000/content`
 - 测速日志：`ip:8000/log`
 

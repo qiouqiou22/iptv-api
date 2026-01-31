@@ -340,11 +340,21 @@ def get_ip_address():
         return f"http://{ip}:{config.app_port}"
 
 
-def convert_to_m3u(first_channel_name=None):
+def get_grouped_result_path(suffix, result_file=None):
+    """
+    Get grouped result file path by suffix
+    """
+    final_file = result_file or config.final_file
+    final_file_path = resource_path(final_file, persistent=True)
+    base, ext = os.path.splitext(final_file_path)
+    return f"{base}_{suffix}{ext}"
+
+
+def convert_to_m3u(first_channel_name=None, result_file=None):
     """
     Convert result txt to m3u format
     """
-    user_final_file = resource_path(config.final_file)
+    user_final_file = resource_path(result_file or config.final_file)
     if os.path.exists(user_final_file):
         with open(user_final_file, "r", encoding="utf-8") as file:
             m3u_output = '#EXTM3U x-tvg-url="https://raw.githubusercontent.com/fanmingming/live/main/e.xml"\n'
@@ -377,11 +387,11 @@ def convert_to_m3u(first_channel_name=None):
             print(f"✅ M3U result file generated at: {m3u_file_path}")
 
 
-def get_result_file_content(show_content=False, file_type=None):
+def get_result_file_content(show_content=False, file_type=None, result_file=None):
     """
     Get the content of the result file
     """
-    user_final_file = resource_path(config.final_file)
+    user_final_file = resource_path(result_file or config.final_file)
     result_file = (
         os.path.splitext(user_final_file)[0] + f".{file_type}"
         if file_type

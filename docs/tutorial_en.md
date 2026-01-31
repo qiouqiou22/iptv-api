@@ -223,6 +223,18 @@ Or proxy address:
 https://cdn.jsdelivr.net/gh/your\_github\_username/repository\_name (corresponding to the TV created when forking)
 @master/output/user\_result.txt
 
+Main (top 2) and backup subscription examples:
+https://raw.githubusercontent.com/your\_github\_username/repository\_name (corresponding to the TV created when forking)
+/master/output/user\_result\_main.txt
+https://raw.githubusercontent.com/your\_github\_username/repository\_name (corresponding to the TV created when forking)
+/master/output/user\_result\_backup.txt
+
+Or proxy address:
+https://cdn.jsdelivr.net/gh/your\_github\_username/repository\_name (corresponding to the TV created when forking)
+@master/output/user\_result\_main.txt
+https://cdn.jsdelivr.net/gh/your\_github\_username/repository\_name (corresponding to the TV created when forking)
+@master/output/user\_result\_backup.txt
+
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been
@@ -387,6 +399,10 @@ Using the host path `/etc/docker` as an example:
 - API address: `ip:8000`
 - m3u api: `ip:8000/m3u`
 - txt api: `ip:8000/txt`
+- Main m3u (top 2): `ip:8000/main.m3u`
+- Main txt: `ip:8000/main.txt`
+- Backup m3u: `ip:8000/backup.m3u`
+- Backup txt: `ip:8000/backup.txt`
 - API content: `ip:8000/content`
 - Speed test log: `ip:8000/log`
 ```

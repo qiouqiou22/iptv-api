@@ -173,6 +173,24 @@ class ConfigManager:
         return self.config.getint("Settings", "urls_limit", fallback=30)
 
     @property
+    def primary_urls_limit(self):
+        try:
+            value = self.config.getint("Settings", "primary_urls_limit", fallback=2)
+        except:
+            value = 2
+        return max(value, 0)
+
+    @property
+    def backup_urls_limit(self):
+        try:
+            value = self.config.getint("Settings", "backup_urls_limit", fallback=-1)
+        except:
+            value = -1
+        if value < 0:
+            return max(self.urls_limit - self.primary_urls_limit, 0)
+        return value
+
+    @property
     def open_url_info(self):
         return self.config.getboolean("Settings", "open_url_info", fallback=True)
 

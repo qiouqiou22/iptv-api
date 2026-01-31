@@ -197,6 +197,14 @@ https://raw.githubusercontent.com/您的github用户名/仓库名称（对应上
 或者代理地址：
 https://cdn.jsdelivr.net/gh/您的github用户名/仓库名称（对应上述Fork创建时的TV）@master/output/user_result.txt
 
+主源（前两条）与备用源订阅示例：
+https://raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的iptv-api）/master/output/user_result_main.txt
+https://raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的iptv-api）/master/output/user_result_backup.txt
+
+或代理地址：
+https://cdn.jsdelivr.net/gh/您的github用户名/仓库名称（对应上述Fork创建时的TV）@master/output/user_result_main.txt
+https://cdn.jsdelivr.net/gh/您的github用户名/仓库名称（对应上述Fork创建时的TV）@master/output/user_result_backup.txt
+
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到`TVBox`
@@ -353,5 +361,9 @@ docker run -d -p 8000:8000 guovern/iptv-api:lite
 - 接口地址：`ip:8000`
 - m3u 接口：`ip:8000/m3u`
 - txt 接口：`ip:8000/txt`
+- 主源 m3u（前两条）：`ip:8000/main.m3u`
+- 主源 txt：`ip:8000/main.txt`
+- 备用源 m3u：`ip:8000/backup.m3u`
+- 备用源 txt：`ip:8000/backup.txt`
 - 接口内容：`ip:8000/content`
 - 测速日志：`ip:8000/log`

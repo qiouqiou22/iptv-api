@@ -80,6 +80,26 @@ https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
 ```
 
+Main sources (top 2):
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_main.m3u
+```
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_main.txt
+```
+
+Backup sources:
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_backup.m3u
+```
+
+```bash
+https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result_backup.txt
+```
+
 or
 
 ```bash
@@ -88,6 +108,26 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u
 
 ```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.txt
+```
+
+Main sources (top 2):
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_main.m3u
+```
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_main.txt
+```
+
+Backup sources:
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_backup.m3u
+```
+
+```bash
+https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result_backup.txt
 ```
 
 - Data source:
@@ -159,6 +199,8 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 | subscribe_num          | The number of preferred subscribe source interfaces in the results                                                                                                                                                                                                                                                                                                                                                               | 10                |
 | time_zone              | Time zone, can be used to control the time zone displayed by the update time, optional values: Asia/Shanghai or other time zone codes                                                                                                                                                                                                                                                                                            | Asia/Shanghai     |
 | urls_limit             | Number of interfaces per channel                                                                                                                                                                                                                                                                                                                                                                                                 | 10                |
+| primary_urls_limit     | Primary source interface count (output top N)                                                                                                                                                                                                                                                                                                                                                                                     | 2                 |
+| backup_urls_limit      | Backup source interface count (default=urls_limit-primary, negative means auto)                                                                                                                                                                                                                                                                                                                                                   | -1                |
 | update_time_position   | Update time display position, need to enable open_update_time to take effect, optional values: top, bottom, top: display at the top of the result, bottom: display at the bottom of the result                                                                                                                                                                                                                                   | top               |
 
 ## Quick Start
@@ -294,6 +336,10 @@ Taking the host path /etc/docker as an example:
 - API address: `ip:8000`
 - m3u api：`ip:8000/m3u`
 - txt api：`ip:8000/txt`
+- Main m3u (top 2): `ip:8000/main.m3u`
+- Main txt: `ip:8000/main.txt`
+- Backup m3u: `ip:8000/backup.m3u`
+- Backup txt: `ip:8000/backup.txt`
 - API content: `ip:8000/content`
 - Speed test log: `ip:8000/log`
 

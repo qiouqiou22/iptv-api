@@ -53,4 +53,6 @@
 | subscribe_num          | 结果中偏好的订阅源接口数量                                                                                                                                                         | 10                |
 | time_zone              | 时区，可用于控制更新时间显示的时区，可选值：Asia/Shanghai 或其它时区编码                                                                                                                           | Asia/Shanghai     |
 | urls_limit             | 单个频道接口数量                                                                                                                                                              | 10                |
+| primary_urls_limit     | 主源接口数量（优先输出前 N 条）                                                                                                                                                    | 2                 |
+| backup_urls_limit      | 备用源接口数量（默认=urls_limit-主源数量，负数表示自动）                                                                                                                                        | -1                |
 | update_time_position   | 更新时间显示位置，需要开启 open_update_time 才能生效，可选值：top、bottom，top: 显示于结果顶部，bottom: 显示于结果底部                                                                                       | top               |

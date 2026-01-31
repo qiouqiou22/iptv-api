@@ -653,12 +653,31 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     return result
 
 
-def write_channel_to_file(data, ipv6=False, callback=None):
+def get_primary_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
+    """
+    Get the primary urls for a channel
+    """
+    primary_limit = min(config.primary_urls_limit, config.urls_limit)
+    channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
+    return channel_urls[:primary_limit]
+
+
+def get_backup_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
+    """
+    Get the backup urls for a channel
+    """
+    primary_limit = min(config.primary_urls_limit, config.urls_limit)
+    backup_limit = min(config.backup_urls_limit, max(config.urls_limit - primary_limit, 0))
+    channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
+    return channel_urls[primary_limit:primary_limit + backup_limit]
+
+
+def write_channel_to_file(data, ipv6=False, callback=None, path=None, url_selector=None):
     """
     Write channel to file
     """
     try:
-        path = constants.result_path
+        path = path or constants.result_path
         if not os.path.exists("output"):
             os.makedirs("output")
         no_result_name = []
@@ -667,6 +686,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
         if any(pref in ipv_type_prefer for pref in ["自动", "auto"]):
             ipv_type_prefer = ["ipv6", "ipv4"] if ipv6 else ["ipv4", "ipv6"]
         origin_type_prefer = config.origin_type_prefer
+        url_selector = url_selector or get_total_urls
         first_cate = True
         content = ""
         for cate, channel_obj in data.items():
@@ -677,7 +697,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             names_len = len(list(channel_obj_keys))
             for i, name in enumerate(channel_obj_keys):
                 info_list = data.get(cate, {}).get(name, [])
-                channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
+                channel_urls = url_selector(info_list, ipv_type_prefer, origin_type_prefer)
                 end_char = ", " if i < names_len - 1 else ""
                 print(f"{name}:", len(channel_urls), end=end_char)
                 if not channel_urls:
@@ -701,7 +721,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             update_time_url = next(
                 (urls[0] for channel_obj in data.values()
                  for info_list in channel_obj.values()
-                 if (urls := get_total_urls(info_list, ipv_type_prefer, origin_type_prefer))),
+                 if (urls := url_selector(info_list, ipv_type_prefer, origin_type_prefer))),
                 "url"
             )
             if config.update_time_position == "top":

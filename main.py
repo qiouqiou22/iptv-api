@@ -19,6 +19,8 @@ from utils.channel import (
     write_channel_to_file,
     get_channel_data_cache_with_compare,
     format_channel_url_info,
+    get_primary_channel_urls,
+    get_backup_channel_urls,
 )
 from utils.config import config
 from utils.tools import (
@@ -31,7 +33,8 @@ from utils.tools import (
     check_ipv6_support,
     resource_path,
     get_urls_from_file,
-    get_version_info
+    get_version_info,
+    get_grouped_result_path
 )
 
 
@@ -163,6 +166,18 @@ class UpdateSource:
                 )
                 self.pbar.close()
                 update_file(user_final_file, constants.result_path)
+                write_channel_to_file(
+                    self.channel_data,
+                    ipv6=ipv6_support,
+                    path=get_grouped_result_path("main", user_final_file),
+                    url_selector=get_primary_channel_urls,
+                )
+                write_channel_to_file(
+                    self.channel_data,
+                    ipv6=ipv6_support,
+                    path=get_grouped_result_path("backup", user_final_file),
+                    url_selector=get_backup_channel_urls,
+                )
                 if config.open_history:
                     if open_sort:
                         get_channel_data_cache_with_compare(
@@ -173,7 +188,15 @@ class UpdateSource:
                             "wb",
                     ) as file:
                         pickle.dump(channel_data_cache, file)
-                convert_to_m3u(channel_names[0])
+                convert_to_m3u(channel_names[0], result_file=user_final_file)
+                convert_to_m3u(
+                    channel_names[0],
+                    result_file=get_grouped_result_path("main", user_final_file),
+                )
+                convert_to_m3u(
+                    channel_names[0],
+                    result_file=get_grouped_result_path("backup", user_final_file),
+                )
                 print(
                     f"🥳 Update completed! Total time spent: {format_interval(time() - main_start_time)}. Please check the {user_final_file} file!"
                 )

@@ -79,11 +79,59 @@ jobs:
           except: 
             final_m3u_file = "output/result.m3u"
           print(final_m3u_file)')
+          final_main_file=$(python -c '
+          try:
+            from utils.config import config
+            import os
+            final_file = config.final_file
+            final_main_file = os.path.splitext(final_file)[0] + "_main" + os.path.splitext(final_file)[1]
+          except:
+            final_main_file = "output/result_main.txt"
+          print(final_main_file)')
+          final_main_m3u_file=$(python -c '
+          try:
+            from utils.config import config
+            import os
+            final_file = config.final_file
+            final_main_m3u_file = os.path.splitext(final_file)[0] + "_main.m3u"
+          except:
+            final_main_m3u_file = "output/result_main.m3u"
+          print(final_main_m3u_file)')
+          final_backup_file=$(python -c '
+          try:
+            from utils.config import config
+            import os
+            final_file = config.final_file
+            final_backup_file = os.path.splitext(final_file)[0] + "_backup" + os.path.splitext(final_file)[1]
+          except:
+            final_backup_file = "output/result_backup.txt"
+          print(final_backup_file)')
+          final_backup_m3u_file=$(python -c '
+          try:
+            from utils.config import config
+            import os
+            final_file = config.final_file
+            final_backup_m3u_file = os.path.splitext(final_file)[0] + "_backup.m3u"
+          except:
+            final_backup_m3u_file = "output/result_backup.m3u"
+          print(final_backup_m3u_file)')
           if [[ -f "$final_file" ]]; then
             git add -f "$final_file"
           fi
           if [[ -f "$final_m3u_file" ]]; then
             git add -f "$final_m3u_file"
+          fi
+          if [[ -f "$final_main_file" ]]; then
+            git add -f "$final_main_file"
+          fi
+          if [[ -f "$final_main_m3u_file" ]]; then
+            git add -f "$final_main_m3u_file"
+          fi
+          if [[ -f "$final_backup_file" ]]; then
+            git add -f "$final_backup_file"
+          fi
+          if [[ -f "$final_backup_m3u_file" ]]; then
+            git add -f "$final_backup_m3u_file"
           fi
           if [[ -f "output/cache.pkl" ]]; then
             git add -f "output/cache.pkl"
