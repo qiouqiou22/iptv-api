@@ -1,9 +1,9 @@
 name: 'Update schedule'
 
 on:
-  schedule:
-    - cron: '0 22 * * *'
-    - cron: '0 10 * * *'
+  #schedule:    #关闭定时
+  #  - cron: '0 22 * * *'
+  #  - cron: '0 10 * * *'
   workflow_dispatch:
 jobs:
   push:
