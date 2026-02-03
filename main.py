@@ -19,8 +19,7 @@ from utils.channel import (
     write_channel_to_file,
     get_channel_data_cache_with_compare,
     format_channel_url_info,
-    get_primary_channel_urls,
-    get_backup_channel_urls,
+    get_primary_backup_channel_urls,
 )
 from utils.config import config
 from utils.tools import (
@@ -109,6 +108,17 @@ class UpdateSource:
         )
         return len(processed_urls)
 
+    def get_selected_urls_len(self, ipv6_support, url_selector):
+        ipv_type_prefer = list(config.ipv_type_prefer)
+        if any(pref in ipv_type_prefer for pref in ["自动", "auto"]):
+            ipv_type_prefer = ["ipv6", "ipv4"] if ipv6_support else ["ipv4", "ipv6"]
+        origin_type_prefer = config.origin_type_prefer
+        return sum(
+            len(url_selector(info_list, ipv_type_prefer, origin_type_prefer))
+            for channel_obj in self.channel_data.values()
+            for info_list in channel_obj.values()
+        )
+
     async def main(self):
         try:
             user_final_file = config.final_file
@@ -157,27 +167,20 @@ class UpdateSource:
                 else:
                     format_channel_url_info(self.channel_data)
                 self.total = self.get_urls_len()
+                self.total = self.get_selected_urls_len(
+                    ipv6_support=ipv6_support,
+                    url_selector=get_primary_backup_channel_urls,
+                )
                 self.pbar = tqdm(total=self.total, desc="Writing")
                 self.start_time = time()
                 write_channel_to_file(
                     self.channel_data,
                     ipv6=ipv6_support,
                     callback=lambda: self.pbar_update(name="写入结果"),
+                    url_selector=get_primary_backup_channel_urls,
                 )
                 self.pbar.close()
                 update_file(user_final_file, constants.result_path)
-                write_channel_to_file(
-                    self.channel_data,
-                    ipv6=ipv6_support,
-                    path=get_grouped_result_path("main", user_final_file),
-                    url_selector=get_primary_channel_urls,
-                )
-                write_channel_to_file(
-                    self.channel_data,
-                    ipv6=ipv6_support,
-                    path=get_grouped_result_path("backup", user_final_file),
-                    url_selector=get_backup_channel_urls,
-                )
                 if config.open_history:
                     if open_sort:
                         get_channel_data_cache_with_compare(
@@ -189,14 +192,6 @@ class UpdateSource:
                     ) as file:
                         pickle.dump(channel_data_cache, file)
                 convert_to_m3u(channel_names[0], result_file=user_final_file)
-                convert_to_m3u(
-                    channel_names[0],
-                    result_file=get_grouped_result_path("main", user_final_file),
-                )
-                convert_to_m3u(
-                    channel_names[0],
-                    result_file=get_grouped_result_path("backup", user_final_file),
-                )
                 print(
                     f"🥳 Update completed! Total time spent: {format_interval(time() - main_start_time)}. Please check the {user_final_file} file!"
                 )

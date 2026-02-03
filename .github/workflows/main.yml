@@ -112,18 +112,6 @@ jobs:
           if [[ -f "$final_m3u_file" ]]; then
             git add -f "$final_m3u_file"
           fi
-          if [[ -f "$final_main_file" ]]; then
-            git add -f "$final_main_file"
-          fi
-          if [[ -f "$final_main_m3u_file" ]]; then
-            git add -f "$final_main_m3u_file"
-          fi
-          if [[ -f "$final_backup_file" ]]; then
-            git add -f "$final_backup_file"
-          fi
-          if [[ -f "$final_backup_m3u_file" ]]; then
-            git add -f "$final_backup_m3u_file"
-          fi
           if [[ -f "output/cache.pkl" ]]; then
             git add -f "output/cache.pkl"
           fi

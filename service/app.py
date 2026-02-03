@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from flask import Flask, send_from_directory, make_response
-from utils.tools import get_result_file_content, get_ip_address, resource_path, get_grouped_result_path
+from utils.tools import get_result_file_content, get_ip_address, resource_path
 from utils.config import config
 import utils.constants as constants
 
@@ -36,36 +36,6 @@ def show_content():
     return get_result_file_content(show_content=True)
 
 
-@app.route("/main")
-def show_main():
-    return get_result_file_content(result_file=get_grouped_result_path("main"))
-
-
-@app.route("/main.txt")
-def show_main_txt():
-    return get_result_file_content(file_type="txt", result_file=get_grouped_result_path("main"))
-
-
-@app.route("/main.m3u")
-def show_main_m3u():
-    return get_result_file_content(file_type="m3u", result_file=get_grouped_result_path("main"))
-
-
-@app.route("/backup")
-def show_backup():
-    return get_result_file_content(result_file=get_grouped_result_path("backup"))
-
-
-@app.route("/backup.txt")
-def show_backup_txt():
-    return get_result_file_content(file_type="txt", result_file=get_grouped_result_path("backup"))
-
-
-@app.route("/backup.m3u")
-def show_backup_m3u():
-    return get_result_file_content(file_type="m3u", result_file=get_grouped_result_path("backup"))
-
-
 @app.route("/log")
 def show_log():
     log_path = resource_path(constants.sort_log_path)
@@ -87,10 +57,6 @@ def run_service():
             print(f"📄 Log content: {ip_address}/log")
             print(f"🚀 M3u api: {ip_address}/m3u")
             print(f"🚀 Txt api: {ip_address}/txt")
-            print(f"🚀 Main m3u api: {ip_address}/main.m3u")
-            print(f"🚀 Main txt api: {ip_address}/main.txt")
-            print(f"🚀 Backup m3u api: {ip_address}/backup.m3u")
-            print(f"🚀 Backup txt api: {ip_address}/backup.txt")
             print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
             app.run(host="0.0.0.0", port=config.app_port)
     except Exception as e:

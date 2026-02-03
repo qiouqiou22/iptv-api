@@ -671,6 +671,14 @@ def get_backup_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
     return channel_urls[1:2]
 
 
+def get_primary_backup_channel_urls(info_list, ipv_type_prefer, origin_type_prefer):
+    """
+    Get 1 primary + 1 backup urls for a channel
+    """
+    channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
+    return channel_urls[:2]
+
+
 def write_channel_to_file(data, ipv6=False, callback=None, path=None, url_selector=None):
     """
     Write channel to file
